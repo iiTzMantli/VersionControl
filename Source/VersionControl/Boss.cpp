@@ -4,6 +4,43 @@
 #include "Boss.h"
 #include "Engine/Engine.h"
 
+float ABoss::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	// Call the base class implementation
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	// Reduce the boss's health
+	Health -= DamageAmount;
+
+	// Log damage and health status to the debug log
+	if (GEngine)
+	{
+		FString HealthMessage = FString::Printf(TEXT("Boss takes %f damage! Current Health: %f"), DamageAmount, Health);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, HealthMessage);
+	}
+
+	// Check if the boss should transition to Phase 2
+	if (Health <= 50.0f && !bIsPhaseTwo)
+	{
+		TransitionToPhaseTwo();
+	}
+
+	// Check if the boss is dead
+	if (Health <= 0.0f)
+	{
+		// Log death
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Boss has been defeated!"));
+		}
+
+		// Optional: Call death function or destroy the boss
+		Destroy();
+	}
+
+	return DamageAmount;  // Return the amount of damage taken
+}
+
 // Sets default values
 ABoss::ABoss()
 {
