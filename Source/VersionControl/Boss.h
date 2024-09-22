@@ -15,6 +15,10 @@ public:
 	// Sets default values for this character's properties
 	ABoss();
 
+	// This function exposes itself to blueprints to be called out there
+	UFUNCTION(BlueprintCallable, Category = "BP_Boss")
+	void TriggerPhaseTwo();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

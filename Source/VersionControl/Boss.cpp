@@ -34,7 +34,7 @@ float ABoss::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACo
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Boss has been defeated!"));
 		}
 
-		// Optional: Call death function or destroy the boss
+		// Call death function or destroy the boss
 		Destroy();
 	}
 
@@ -74,6 +74,21 @@ void ABoss::LogBossStats()
 	}
 }
 
+void ABoss::TriggerPhaseTwo()
+{
+	if (!bIsPhaseTwo)
+	{
+		bIsPhaseTwo = true;
+		TransitionToPhaseTwo();
+
+		// Log message to say the function was called
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Phase Two Triggered!"));
+		}
+	}
+}
+
 void ABoss::TransitionToPhaseTwo()
 {
 	if (!bIsPhaseTwo)
@@ -81,15 +96,11 @@ void ABoss::TransitionToPhaseTwo()
 		bIsPhaseTwo = true;
 
 		//double the size of my boss
-		SetActorScale3D(GetActorScale3D() * 2);
+		SetActorScale3D(FVector(2.0f));
 
 		//double the stats for the boss
-		Health *= 2;
 		AttackPower *= 2;
 		Speed *= 2;
-
-		//New stats will be logged
-		LogBossStats();
 
 		if (GEngine)
 		{
@@ -109,7 +120,6 @@ void ABoss::PhaseTwoAttack()
 		}
 	}
 }
-
 
 // Called every frame
 void ABoss::Tick(float DeltaTime)
