@@ -32,7 +32,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 // Attack function
 void APlayerCharacter::OnAttack()
 {
-    // Find the boss in the level (assuming the boss is of type ABossCharacter)
+    // Find the boss in the level (assuming the boss is of type ABoss)
     ABoss* TargetBoss = Cast<ABoss>(UGameplayStatics::GetActorOfClass(GetWorld(), ABoss::StaticClass()));
 
     if (TargetBoss)
