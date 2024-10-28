@@ -4,6 +4,8 @@
 #include "Boss.h"
 #include "Engine/Engine.h"
 
+
+
 float ABoss::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	// Call the base class implementation
@@ -23,6 +25,7 @@ float ABoss::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACo
 	if (Health <= 50.0f && !bIsPhaseTwo)
 	{
 		TransitionToPhaseTwo();
+
 	}
 
 	// Check if the boss is dead
@@ -106,6 +109,8 @@ void ABoss::TransitionToPhaseTwo()
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Boss has moved to Phase 2!"));
 		}
+
+		LogBossStats();
 	}
 }
 
@@ -125,13 +130,6 @@ void ABoss::PhaseTwoAttack()
 void ABoss::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	//when the bosses health drops below 50 initiate phase two
-	if (Health <= 50.0f && !bIsPhaseTwo)
-	{
-		TransitionToPhaseTwo();
-	}
-
 	if (bIsPhaseTwo)
 	{
 		PhaseTwoAttack(); //this will initiate phase two new attack which will be stronger than phase ones

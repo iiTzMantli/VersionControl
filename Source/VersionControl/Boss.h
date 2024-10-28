@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Boss.generated.h"
 
+
+
 UCLASS()
 class VERSIONCONTROL_API ABoss : public ACharacter
 {
@@ -25,7 +27,7 @@ protected:
 
 	//Boss stats
 	float Health;
-	float AttackPower;
+	
 	float Speed;
 
 	//boss phase control
@@ -43,7 +45,7 @@ public:
 
 	//Deal damage
 	void PerformAttack();
-
+	float AttackPower;
 	//Show debug log
 	void LogBossStats();
 
